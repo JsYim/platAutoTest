@@ -1,4 +1,4 @@
-class Shape 
+class Shape
   attr_reader :sort
   attr_reader :dimension
 
@@ -7,28 +7,25 @@ class Shape
     @dimension = dimension
   end
   def sort_print sort
-    puts "Shape: @sort"
+    puts "Shape: " + @sort
   end
   def dimension_calculate
-    dimension = 0
-  end
-  def is_valid?
-
+    @dimension = 0
   end
 end
 
 class Circle < Shape
   attr_reader :radius
   def initialize (sort, radius)
-  super(sort, dimension)
-  @radius = radius
+    super sort,dimension
+    @radius = radius
   end
   def sort_print
-    puts "Circle:@sort"
+    puts "Shape: " + @sort
   end
   def dimension_calculate
-    dimension = 3 * radius * radius
-    return dimension
+    @dimension = 3 * radius.to_i * radius.to_i
+    puts "Dimension: #@dimension"
   end
 end
 
@@ -41,13 +38,14 @@ class Triangle < Shape
     @height = height
   end
   def sort_print
-    puts "Triangle:#@sort"
+    puts "Shape: " + @sort
   end
   def dimension_calculate
-    dimension = width * height / 2
-    return dimension
+    @dimension = width.to_i * height.to_i / 2
+    puts "Dimension: #@dimension"
   end
 end
+
 class Rectangle < Shape
   attr_reader :width
   attr_reader :height
@@ -58,63 +56,45 @@ class Rectangle < Shape
   end
 
   def sort_print
-    puts "Rectangle:#@sort"
+    puts "Shape " + @sort
   end
 
   def dimension_calculate
-    dimension = width * height
-    return dimension
+    @dimension = width.to_i * height.to_i
+    return @dimension
+    puts "Dimension: #@dimension"
   end
-
 end
+
+
+require 'dimension_calculate.rb'
 
 class DataProcess
   attr_reader :file
-  def initialize file
+  attr_reader :shape
+  def initialize file, shape
     @file = file
+    @shape = shape
   end
-  def line_split
-    lines = IO.readlines(file)
-
-    tmp = lines[3].split(" ")
-
-    shape = tmp[1]
-
-    var1 = tmp[2].to_i
-
-    var2 = tmp[3].to_i
-
+  lines = IO.readlines("testfile")
+  lines.each do |str|
+    number, shape, r_w, h= str.chomp.split(" ")
     if shape == "circle"
-      c = Circle.new(shape, var1)
-      return c.dimension_calculate
+      c = Circle.new(shape,r_w)
+      c.sort_print
+      c.dimension_calculate
     elsif shape == "triangle"
-      t = Triangle.new(shape, var1, var2)
-      return t.dimension_calculate
+      t = Triangle.new(shape,r_w,h)
+      t.sort_print
+      t.dimension_calculate
     elsif shape == "rectangle"
-      r =  Rectangle.new(shape, var1, var2)
-      return r.dimension_calculate
+      r = Rectangle.new(shape,r_w,h)
+      r.sort_print
+      r.dimension_calculate
     else
-      return 0
+      puts "Invalid!"
     end
   end
 end
-
-lines = DataProcess.new("data.txt")
-xxx = lines.line_split
-puts xxx
-
-# shape = var[1]
-# width = var[2]
-# height = var[3]
-# puts shape
-
-
-
-
-#puts var[1]
-# triangle = eval("shape.capitalize",new(shape, width, height))
-# tri = Triangle.new(shape,width,height)
-# circle.
-
 
 
