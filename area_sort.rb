@@ -1,43 +1,120 @@
-def graphic_dimension (sort, *var)
-  if sort == "circle"
-    dimension = cirlce_dimension(*var)
-  elsif sort == "triangle"
-    dimension = triangle_dimension(*var)
-  elsif sort == "rectangle"
-    dimension = rectangle_dimension(*var)
-  else
+class Shape 
+  attr_reader :sort
+  attr_reader :dimension
+
+  def initialize (sort, dimension)
+    @sort = sort
+    @dimension = dimension
+  end
+  def sort_print sort
+    puts "Shape: @sort"
+  end
+  def dimension_calculate
     dimension = 0
-  return dimension
+  end
+  def is_valid?
+
   end
 end
 
-def cirlce_dimension radius
-  return  3 *radius.to_i * radius.to_i
+class Circle < Shape
+  attr_reader :radius
+  def initialize (sort, radius)
+  super(sort, dimension)
+  @radius = radius
+  end
+  def sort_print
+    puts "Circle:@sort"
+  end
+  def dimension_calculate
+    dimension = 3 * radius * radius
+    return dimension
+  end
 end
 
-def triangle_dimension width, height
-  return  width.to_i * height.to_i / 2
+class Triangle < Shape
+  attr_reader :width
+  attr_reader :height
+  def initialize (sort, width, height)
+    super(sort, dimension)
+    @width = width
+    @height = height
+  end
+  def sort_print
+    puts "Triangle:#@sort"
+  end
+  def dimension_calculate
+    dimension = width * height / 2
+    return dimension
+  end
+end
+class Rectangle < Shape
+  attr_reader :width
+  attr_reader :height
+  def initialize (sort, width, height)
+    super(sort, dimension)
+    @width = width
+    @height = height
+  end
+
+  def sort_print
+    puts "Rectangle:#@sort"
+  end
+
+  def dimension_calculate
+    dimension = width * height
+    return dimension
+  end
+
 end
 
-def rectangle_dimension width, height
-  return  width.to_i* height.to_i
+class DataProcess
+  attr_reader :file
+  def initialize file
+    @file = file
+  end
+  def line_split
+    lines = IO.readlines(file)
+
+    tmp = lines[3].split(" ")
+
+    shape = tmp[1]
+
+    var1 = tmp[2].to_i
+
+    var2 = tmp[3].to_i
+
+    if shape == "circle"
+      c = Circle.new(shape, var1)
+      return c.dimension_calculate
+    elsif shape == "triangle"
+      t = Triangle.new(shape, var1, var2)
+      return t.dimension_calculate
+    elsif shape == "rectangle"
+      r =  Rectangle.new(shape, var1, var2)
+      return r.dimension_calculate
+    else
+      return 0
+    end
+  end
 end
 
-def graphic_dimension_sort dimension
-  return dimension.sort
-end
-result = Array.new
+lines = DataProcess.new("data.txt")
+xxx = lines.line_split
+puts xxx
 
-result[0] = graphic_dimension("circle",5)
-result[1]  = graphic_dimension("triangle", 5, 10)
-result[2]  = graphic_dimension("rectangle", 8, 9)
+# shape = var[1]
+# width = var[2]
+# height = var[3]
+# puts shape
 
-final = graphic_dimension_sort(result)
 
-puts ("Dimension of circle: #{result[0]}")
-puts ("Dimension of triangle: #{result[1]}")
-puts ("Dimension of rectangle: #{result[2]}")
-puts ("Sort of graphic dimensions: #{final}")
 
-arr = IO.readlines("testfile")
-puts arr[0]
+
+#puts var[1]
+# triangle = eval("shape.capitalize",new(shape, width, height))
+# tri = Triangle.new(shape,width,height)
+# circle.
+
+
+
