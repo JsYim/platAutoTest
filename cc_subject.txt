@@ -1,17 +1,22 @@
+案例一
+迭代一：
 需求：对所有输入图形计算面积并进行排序
+
 	输入图形：类型及对应参数
 	输入为矩形时，参数为长、宽
 	输入为三角形时，参数为底、高
 	输入为圆形时，参数为半径
 	图形参数可能有无效的，统一用-1表示
+
 	计算面积：
 	输入为矩形时，面积为长*宽
 	输入为三角形时，面积为底*高/2
 	输入为圆形时，面积为3*半径*半径
 	图形参数无效的面积按0计算
+
 	面积排序： 
 	面积按从大到小排序
-	面积相等时按边数大小排序－圆形>矩形>三角形
+	面积相等时按如下类型顺序排序－圆形>矩形>三角形
 
 输入数据：
 1  circle  10
@@ -25,8 +30,50 @@
 9  rectangle  -1  10
 10  rectangle  10  60
 
-要求按上述初始化数据设计程序，输出所有图形总面积及面积排序结果。
+要求按上述初始化数设计程序，输出所有图形总面积及面积排序结果。
 
 输出：
 Console: Total area is :xxx, 
 the sort of shape area is:xxxx
+
+迭代二：
+需求：
+1.	在迭代一基础上增加梯形图形
+	输入为梯形时，参数为上底、下底、高，其中下底>上底，否则为无效图形
+	输入为梯形时，面积为（上底+下底）*高/2
+	排序面积相等时按如下类型顺序排序－圆形>梯形>矩形>三角形
+2. 在迭代一基础上增加输出各类有效图形的个数，无效图形要剔除
+
+输入数据：
+1  circle  10
+2  triangle  10  60
+3  rectangle  1  3
+4  circle  -1
+5  rectangle  10  30
+6  triangle  1  6
+7  circle  2
+8  triangle  -1  -1
+9  rectangle  -1  10
+10  rectangle  10  60
+11  trapezoid  10  20  20
+12  trapezoid  10  10  20
+
+输出：
+Console: Total area is :xxx, 
+the number of earch valide shape is: circle=xx, rectangle=xx, triangle=xx.
+the sort of shape area is:xxxx
+
+      
+
+
+
+颜嘉丝  Yan Jiasi
+协议栈特性团队2 
+BBU软件一部   BBU Software Dept.Ⅰ/Wireless Product Operation      
+
+ 
+深圳市南山区西丽留仙大道中兴通讯工业园研二-301室
+301,R&D Building 2,ZTE Idustrial Park,LiuXian Road,Xili
+M: +86 185 7665 7117
+E: yan.jiasi@zte.com.cn
+www.zte.com.cn
