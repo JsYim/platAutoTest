@@ -8,6 +8,7 @@ class Shape
   def initialize
     @weight = 0
     @dimension = 0
+    dimension_calculate
   end
   def is_valid
   end
@@ -23,6 +24,7 @@ class Circle < Shape
     @radius = radius
     super()
     @weight = 255
+    is_valid ? dimension_calculate : @dimension = 0
   end
   def dimension_calculate
     @dimension = 3 * @radius * @radius
@@ -41,7 +43,7 @@ class Triangle < Shape
     @height = height
     super()
     @weight = 3
-    is_valid ? dimension_calculate : 0
+    is_valid ? dimension_calculate : @dimension = 0
   end
   def dimension_calculate
     @dimension  = width * height / 2
@@ -59,6 +61,7 @@ class Rectangle < Shape
     @width = width
     @height = height
     super()
+    is_valid ? dimension_calculate : @dimension = 0
     @weight = 4
   end
 
@@ -67,7 +70,7 @@ class Rectangle < Shape
   end
 
   def is_valid
-    return (@width && @height) > 0
+    return @width > 0 && @height > 0
   end
 end
 
@@ -88,7 +91,7 @@ class Trapezoid < Shape
     @dimension  = (top + bottom) * height / 2
   end
   def is_valid
-    return (@width && @height && @top) > 0 && (@top < @bottom)
+    return @width > 0 && @height > 0 && @top > 0 && @top < @bottom
   end
 end
 
@@ -99,6 +102,7 @@ class DataProcess
   def initialize (file)
     @file = file
     @shapes = Array.new
+    data_parse
   end
   def data_parse
     open(@file){|f|
@@ -110,22 +114,40 @@ class DataProcess
         shape_class = eval("#{type.capitalize}.new(#{info})")
         @shapes << {"id" => id, "info" => shape_class}
       }
-      puts @shapes
     }
   end
   def total_dimension_calculate
-    @total_dimension = @shapes["info"]
-    @shapes.each{|s|
-      puts s["info"]
-      @total_dimension += s["info"].dimension
+    @total_dimension = 0
+    @shapes.each{|shape|
+      @total_dimension += shape["info"].dimension
     }
-    puts @total_dimension
+    return @total_dimension
   end
+
+  def comp(a, b)
+    if a['shape'].area < b['shape'].area
+      return 1
+    elsif a['shape'].area  >b['shape'].area
+      return -1
+    else
+      if a['shape'].type_weight <  b['shape'].type_weight
+        return 1
+      elsif a['shape'].type_weight > b['shape'].type_weight
+        return -1
+      end
+      return 0
+    end
+  end
+
+  def shape_sort(shapes)
+    return shapes.sort{|a,b| comp(a,b)}
+  end
+
 end
 
 
 
 
 
-shapes_of_circle = DataProcess.new('data.txt')
-shapes_of_circle.data_parse
+shapes_of_data = DataProcess.new('data.txt')
+puts "total valid area is: #{shapes_of_data.total_dimension_calculate}\n"
